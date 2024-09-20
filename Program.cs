@@ -1,4 +1,5 @@
 ﻿using lab4;
+using Microsoft.EntityFrameworkCore;
 
 using (ApplicationContext db = new ApplicationContext())
 {
@@ -14,6 +15,18 @@ using (ApplicationContext db = new ApplicationContext())
     List<User> users = db.Users.ToList();
     Console.WriteLine("Users:");
     foreach (User user in users)
+    {
+        Console.WriteLine($"{user.Id}.{user.Name} - {user.Age}");
+    }
+
+    User? usr = await db.Users.FirstOrDefaultAsync(u => u.Name.Equals("Alice"));
+    if (usr != null)
+    {
+        db.Users.Remove(usr);
+    }
+    List<User> users1 = db.Users.ToList();
+    Console.WriteLine("Users:");
+    foreach (User user in users1)
     {
         Console.WriteLine($"{user.Id}.{user.Name} - {user.Age}");
     }
